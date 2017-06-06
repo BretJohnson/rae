@@ -5,6 +5,9 @@
  */
 
 import React, { Component } from 'react';
+import CodePush from 'react-native-code-push';
+import Analytics from 'mobile-center-analytics';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -18,9 +21,15 @@ export default class rae extends Component {
   state = { joke: '...' }
   handlePress(e) {
    this.setState({joke: '...'})
+   trackEvent()
    fetch('https://icanhazdadjoke.com/', { headers: { Accept: 'text/plain' } }).then(r => r.text())
      .then(joke => this.setState({ joke }));
   }
+
+  trackEvent() {
+    Analytics.trackEvent('foobar', { 'horse': 'brown' });
+  }
+
 
   render() {
     return (
@@ -53,5 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('rae', () => rae);
-console.disableYellowBox = true;
+AppRegistry.registerComponent('rae', () => CodePush( {installMode: CodePush.InstallMode.IMMEDIATE, updateDialog: true } ) (rae));
