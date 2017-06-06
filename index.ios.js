@@ -9,23 +9,26 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 
 export default class rae extends Component {
+
+  state = { joke: '...' }
+  handlePress(e) {
+   this.setState({joke: '...'})
+   fetch('https://icanhazdadjoke.com/', { headers: { Accept: 'text/plain' } }).then(r => r.text())
+     .then(joke => this.setState({ joke }));
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          {this.state.joke}
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <Button title='I am not laughing' onPress={() => this.handlePress()} />
       </View>
     );
   }
@@ -51,3 +54,4 @@ const styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('rae', () => rae);
+console.disableYellowBox = true;
